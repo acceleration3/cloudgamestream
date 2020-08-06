@@ -8,22 +8,22 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 if($Main -eq $true) {
     $WorkDir = ".\Bin"
-}else{
+} else {
     $WorkDir = "..\Bin"
 }
 
 Import-Module BitsTransfer
 
 $path = "$WorkDir\GFE.exe"
-if(![System.IO.File]::Exists($path))
-{
+
+if(![System.IO.File]::Exists($path)) {
 	Write-Host "Downloading GeForce Experience..."
 	Start-BitsTransfer "https://us.download.nvidia.com/GFE/GFEClient/3.13.0.85/GeForce_Experience_Beta_v3.13.0.85.exe" $path
 }
 
 $path = "$WorkDir\redist.exe"
-if(![System.IO.File]::Exists($path))
-{
+
+if(![System.IO.File]::Exists($path)) {
 	Write-Host "Downloading Visual C++ Redist 2015 x86..."
 	Start-BitsTransfer "https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe" $path
 }

@@ -8,7 +8,7 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 if($Main -eq $true) {
     $WorkDir = ".\Bin"
-}else{
+} else {
     $WorkDir = "..\Bin"
 }
 
@@ -21,10 +21,6 @@ Start-Process -FilePath "$WorkDir\GFEPatch.exe" -NoNewWindow -Wait -PassThru
 
 Write-Host "Patching hosts file to block GeForce Experience updates..."
 Copy-Item -Path "$WorkDir\hosts.txt" -Destination C:\Windows\System32\drivers\etc\hosts
-
-Write-Host "Disabling HyperV Monitor and GPU..."
-displayswitch.exe /internal
-Get-PnpDevice -Class "Display" -Status OK | where { $_.Name -notmatch "nvidia" } | Disable-PnpDevice -confirm:$false
 
 Write-Host "Adding a GameStream rule to the Windows Firewall..."
 New-NetFirewallRule -DisplayName "NVIDIA GameStream TCP" -Direction inbound -LocalPort 47984,47989,48010 -Protocol TCP -Action Allow | Out-Null

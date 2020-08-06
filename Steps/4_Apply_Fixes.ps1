@@ -8,20 +8,15 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 if($Main -eq $true) {
     $WorkDir = ".\Bin"
-}else{
+} else {
     $WorkDir = "..\Bin"
 }
 
 $osType = Get-CimInstance -ClassName Win32_OperatingSystem
 
-if($osType.ProductType -eq 3)
-{
-    Write-Host "Windows Server detected, installing Wireless Networking."
+if($osType.ProductType -eq 3) {
+    Write-Host "Installing Wireless Networking."
     Install-WindowsFeature -Name Wireless-Networking | Out-Null
-
-    Write-Host "Audio service booting fix"
-    New-ItemProperty "hklm:\SYSTEM\CurrentControlSet\Control" -Name "ServicesPipeTimeout" -Value 600000 -PropertyType "DWord" | Out-Null
-    Set-Service -Name Audiosrv -StartupType Automatic | Out-Null
 }
 
 Write-Host "Applying resolution fix"

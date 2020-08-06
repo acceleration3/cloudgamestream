@@ -12,7 +12,7 @@ Set-ExecutionPolicy Unrestricted;Invoke-WebRequest -Uri https://github.com/accel
 Or you can download the script and binaries from [here](https://github.com/acceleration3/cloudgamestream/archive/master.zip).
 
 ## Bugs
-~~Changing the resolution while GameStream is enabled in GeForce Experience will remove all resolutions from the monitor resolutions list.~~ **(Fixed)** If you ran an earlier version of this script, download manually (without using the powershell commands), go into the Steps folder and run Step 3 (3_Apply_Fixes.ps1).
+* **(Fixed)** ~~Changing the resolution while GameStream is enabled in GeForce Experience will remove all resolutions from the monitor resolutions list.~~  If you ran an earlier version of this script, download manually (without using the powershell commands), go into the Steps folder and run Step 4 (4_Apply_Fixes.ps1).
 
 
 ## Compatibility
@@ -24,9 +24,10 @@ Tested and working on the following:
 	* Windows Server 2016
 
 * Platforms:
-	* Azure NV6_Promo (Tesla M60)
-	* Amazon AWS EC2 g4dn.large (Tesla T4)
-	* Google Cloud Platform (Tesla T4)
+	* Azure NV6_Promo Tesla M60
+	* Amazon AWS EC2 g4dn.large Tesla T4
+	* Google Cloud Platform Tesla T4
+	* Google Cloud Platform Tesla P4
 
 
 **WARNING: Machines provided by Shadow.tech supposedly have incompatibility with GeForce Experience and may brick your VM. Use at your own risk.**

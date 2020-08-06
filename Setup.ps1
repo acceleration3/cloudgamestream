@@ -16,8 +16,9 @@ Write-HostCenter "Cloud based GameStream Preparation Tool" -ForegroundColor Yell
 Write-HostCenter "by acceleration3" -ForegroundColor Yellow
 Write-Host ""
 
-if($RebootSkip -eq $false)
-{
+if($RebootSkip -eq $false) {
+    Write-Host "Your computer will restart at least once during this setup."
+    Write-Host ""
     Write-Host "WARNING: Using Microsoft Remote Desktop will create a virtual monitor separate from the one running the NVIDIA GPU and prevent GeForce Experience from enabling the GameStream feature! You need to use another type of Remote Desktop solution such as AnyDesk or TeamViewer!" -ForegroundColor Red
     Write-Host ""
 
@@ -28,10 +29,10 @@ if($RebootSkip -eq $false)
 
     Write-Host "Step 1 - Installing requirements..." -ForegroundColor DarkGreen
     & .\Steps\1_Install_Requirements.ps1 -Main
+
     if($InstallAudio -eq "y") { & .\Steps\1_opt_Install_VBCABLE.ps1 -Main }
 
-    if($InstallDrivers -eq "y") 
-    {
+    if($InstallDrivers -eq "y") {
         $directory = [string](Get-Location);
         $script = "-Command `"Set-ExecutionPolicy Unrestricted; & " + $directory + "\Setup.ps1`" -RebootSkip";
         $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $script -WorkingDirectory $directory
@@ -40,9 +41,7 @@ if($RebootSkip -eq $false)
         & .\Steps\1_opt_Install_Drivers.ps1 -Main
         Restart-Computer -Force
     }
-}
-else
-{
+} else {
     Unregister-ScheduledTask -TaskName "GSSetup" -Confirm:$false
     Write-Host "The script will now continue from where it left off."
     Pause
@@ -51,13 +50,15 @@ else
 Write-Host "Step 2 - Patching GeForce Experience..." -ForegroundColor DarkGreen
 & .\Steps\2_Patch_GFE.ps1 -Main
 
-Write-Host "Step 3 - Applying fixes..." -ForegroundColor DarkGreen
-& .\Steps\3_Apply_Fixes.ps1 -Main
+Write-Host "Step 3 - Disabling Hyper-V Monitor and other GPUs..." -ForegroundColor DarkGreen
+& .\Steps\3_Disable_Other_GPUs.ps1 -Main
 
-Write-Host "Done. You should now be able to use GameStream after you restart your computer."
+Write-Host "Step 4 - Applying fixes..." -ForegroundColor DarkGreen
+& .\Steps\4_Apply_Fixes.ps1 -Main
+
+Write-Host "Done. You should now be able to use GameStream after you restart your computer." -ForegroundColor DarkGreen
 $restart = (Read-Host "Would you like to restart now? (y/n)").ToLower();
 
-if($restart -eq "y")
-{
+if($restart -eq "y")  {
     Restart-Computer -Force
 }
