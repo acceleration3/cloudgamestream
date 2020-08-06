@@ -1,0 +1,7 @@
+0.0.0.0 telemetry.gfe.nvidia.com
+0.0.0.0 ls.dtrace.nvidia.com
+0.0.0.0 ota.nvidia.com
+0.0.0.0 ota-downloads.nvidia.com
+0.0.0.0 rds-assets.nvidia.com
+0.0.0.0 nvidia.tt.omtrdc.net
+0.0.0.0 api.commune.ly
