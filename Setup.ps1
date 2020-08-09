@@ -9,6 +9,7 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 function Write-HostCenter { param($Message) Write-Host ("{0}{1}" -f (' ' * (([Math]::Max(0, $Host.UI.RawUI.BufferSize.Width / 2) - [Math]::Floor($Message.Length / 2)))), $Message) }
 
 Start-Transcript -Path "Log.txt"
+Set-Location -Path $PSScriptRoot
 
 clear
 
