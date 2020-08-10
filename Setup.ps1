@@ -11,7 +11,6 @@ function Write-HostCenter { param($Message) Write-Host ("{0}{1}" -f (' ' * (([Ma
 
 Start-Transcript -Path "Log.txt"
 Set-Location -Path $PSScriptRoot
-[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 
 clear
 

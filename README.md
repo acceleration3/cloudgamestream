@@ -6,7 +6,7 @@ A Powershell one-click solution to enable NVIDIA GeForce Experience GameStream o
 ## Installation
 Copy and paste these commands in the machine's powershell prompt:
 ```
-Set-ExecutionPolicy Unrestricted;Invoke-WebRequest -Uri https://github.com/acceleration3/cloudgamestream/archive/master.zip -OutFile arch.zip;Add-Type -Assembly "System.IO.Compression.Filesystem";$dir = [string](Get-Location);[System.IO.Compression.ZipFile]::ExtractToDirectory($dir + "\arch.zip", $dir);cd cloudgamestream-master;./Setup.ps1
+[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls";Set-ExecutionPolicy Unrestricted;Invoke-WebRequest -Uri https://github.com/acceleration3/cloudgamestream/archive/master.zip -OutFile arch.zip;Add-Type -Assembly "System.IO.Compression.Filesystem";$dir = [string](Get-Location);[System.IO.Compression.ZipFile]::ExtractToDirectory($dir + "\arch.zip", $dir);cd cloudgamestream-master;./Setup.ps1
 ```
 
 Or you can download the script and binaries from [here](https://github.com/acceleration3/cloudgamestream/archive/master.zip).
