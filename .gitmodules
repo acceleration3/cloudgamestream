@@ -1,0 +1,4 @@
+[submodule "nvsetedid"]
+	path = nvsetedid
+	url = https://github.com/acceleration3/nvsetedid
+	branch = master
