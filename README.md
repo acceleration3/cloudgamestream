@@ -1,19 +1,18 @@
 # Cloud NVIDIA GameStream
 
 ## What is it?
-A Powershell one-click solution to enable NVIDIA GeForce Experience GameStream on a cloud machine with a GRID supporting GPU. There was a [thread discussing this in the xda-developers forum](https://forum.xda-developers.com/showthread.php?t=2394478) but the whole process was unclear in which versions of the GRID drivers and GeForce Experience to use and required some tedious installation and workarounds since the GeForce Experience that supported it would automatically update to the newest one. This script will solve all the issues with one single script.
+A Powershell one-click solution to enable NVIDIA GeForce Experience GameStream on a cloud machine with a GRID supporting GPU. There was a [thread discussing this in the xda-developers forum](https://forum.xda-developers.com/showthread.php?t=2394478) but the whole process was unclear in which versions of the GRID drivers and GeForce Experience to use and required some tedious installation and workarounds since the GeForce Experience that supported it would automatically update to the newest one. This script will solve all the issues with one single script.  
+&nbsp;  
+&nbsp;  
 
 ## Installation
 Copy and paste these commands in the machine's powershell prompt:
 ```
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls";Set-ExecutionPolicy Unrestricted;Invoke-WebRequest -Uri https://github.com/acceleration3/cloudgamestream/archive/master.zip -OutFile arch.zip;Add-Type -Assembly "System.IO.Compression.Filesystem";$dir = [string](Get-Location);[System.IO.Compression.ZipFile]::ExtractToDirectory($dir + "\arch.zip", $dir);cd cloudgamestream-master;./Setup.ps1
 ```
-
-Or you can download the script and binaries from [here](https://github.com/acceleration3/cloudgamestream/archive/master.zip).
-
-## Bugs
-* **(Fixed)** ~~Changing the resolution while GameStream is enabled in GeForce Experience will remove all resolutions from the monitor resolutions list.~~  If you ran an earlier version of this script, download manually (without using the powershell commands), go into the Steps folder and run Step 4 (4_Apply_Fixes.ps1).
-
+Or you can download the script and binaries from [here](https://github.com/acceleration3/cloudgamestream/archive/master.zip).  
+&nbsp;  
+&nbsp;  
 
 ## Compatibility
 Tested and working on the following:
@@ -22,17 +21,18 @@ Tested and working on the following:
 	* Windows 10 Pro build 2004
 	* Windows Server 2019
 	* Windows Server 2016
-
+	
 * Platforms:
 	* Azure NV6_Promo Tesla M60
 	* Amazon AWS EC2 g4dn.large Tesla T4
 	* Google Cloud Platform Tesla T4
 	* Google Cloud Platform Tesla P4
-
-
-**WARNING: Machines provided by Shadow.tech supposedly have incompatibility with GeForce Experience and may brick your VM. Use at your own risk.**
-
-
+	
+&nbsp;  
+**WARNING: Machines provided by Shadow.tech supposedly have incompatibility with GeForce Experience and may brick your VM. Use at your own risk.**  
+&nbsp;  
+&nbsp;  
+&nbsp;  
 ## FAQ
 ### Will this work on \<insert platform and instance name here\>?
 I am building a list of platforms it currently supports, so if you've tested it yourself and it works, please message me on reddit `/u/acceleration3` with the information on your VM. If it doesn't work you can also message me with details and I will try and change the script to support your VM.
