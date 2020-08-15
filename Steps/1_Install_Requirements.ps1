@@ -71,11 +71,15 @@ if($InstallVideo -eq $true) {
     $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $script -WorkingDirectory $directory
     $trigger = New-ScheduledTaskTrigger -AtLogon -RandomDelay "00:00:30"
     Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "GSSetup" -Description "GSSetup" | Out-Null
-    $ExitCode = (Start-Process -FilePath "$WorkDir\Drivers.exe" -ArgumentList "-s","-clean" -NoNewWindow -Wait -PassThru).ExitCode
+    $ExitCode = (Start-Process -FilePath "$WorkDir\Drivers.exe" -ArgumentList "/s","/clean" -NoNewWindow -Wait -PassThru).ExitCode
     if($ExitCode -eq 0) {
         Write-Host "NVIDIA GRID GPU drivers installed. The script will now restart the machine." -ForegroundColor Green 
+        Start-Sleep -Seconds 3
         Restart-Computer -Force
+        Start-Sleep -Seconds 10
+        throw "Failed to restart after 10 seconds. Please restart manually."
     } else {
+        Unregister-ScheduledTask -TaskName "GSSetup" -Confirm:$false
         throw "NVIDIA GRID GPU driver instalation failed."
     }
 }

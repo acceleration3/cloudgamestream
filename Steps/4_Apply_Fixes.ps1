@@ -20,4 +20,16 @@ if($osType.ProductType -eq 3) {
 }
 
 Write-Host "Applying resolution fix..."
-Start-Process -FilePath "$WorkDir\ResolutionFix.exe" -NoNewWindow -Wait -PassThru
+$Status = @("NvAPI failed to initialize", "Failed to query GPUs", "Failed to load EDID file", "Failed to get display count", "Failed to query displays", "Failed to set EDID")
+
+$ExitCode = (Start-Process -FilePath "$WorkDir\NvSetEdid.exe" -WorkingDirectory "$WorkDir" -Argument "-a","-f edid.txt","-g 0","-d 0" -NoNewWindow -Wait -PassThru).ExitCode
+if($ExitCode -ne 0) {
+    $Message = $Status[$($ExitCode - 1)]
+    throw "Adding EDID file failed: $Message"
+}
+
+$ExitCode = (Start-Process -FilePath "$WorkDir\NvSetEdid.exe" -WorkingDirectory "$WorkDir" -Argument "-r","-g 0","-d 0" -NoNewWindow -Wait -PassThru).ExitCode
+if($ExitCode -ne 0) {
+    $Message = $Status[$($ExitCode - 1)]
+    throw "Removing EDID file failed: $Message"
+} 
