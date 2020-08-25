@@ -64,11 +64,11 @@ if($InstallAudio) {
 if($InstallVideo) {
     if($Main) {
         Write-Host "Installing NVIDIA GRID GPU drivers... Your machine will reboot after installing."
-        $directory = [string](Get-Location);
-        $script = "-Command `"Set-ExecutionPolicy Unrestricted; & " + $directory + "\Setup.ps1`" -RebootSkip";
-        $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $script -WorkingDirectory $directory
+        $script = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip";
+        $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $script
         $trigger = New-ScheduledTaskTrigger -AtLogon -RandomDelay "00:00:30"
-        Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "GSSetup" -Description "GSSetup" | Out-Null
+        $principal = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
+        Register-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -TaskName "GSSetup" -Description "GSSetup" | Out-Null
     }
     $ExitCode = (Start-Process -FilePath "$WorkDir\Drivers.exe" -ArgumentList "/s","/clean" -NoNewWindow -Wait -PassThru).ExitCode
     if($ExitCode -eq 0) {
