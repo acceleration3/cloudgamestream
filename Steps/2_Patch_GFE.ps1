@@ -1,16 +1,10 @@
-Param([Parameter(Mandatory=$false)] [Switch]$Main)
-
 If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     $Arguments = "& '" + $MyInvocation.mycommand.definition + "'"
     Start-Process powershell -Verb runAs -ArgumentList $Arguments
     Break
 }
 
-if($Main -eq $true) {
-    $WorkDir = ".\Bin"
-} else {
-    $WorkDir = "..\Bin"
-}
+$WorkDir = "$PSScriptRoot\..\Bin\"
 
 Write-Host "Enabling NVIDIA FrameBufferCopy..."
 $ExitCode = (Start-Process -FilePath "$WorkDir\NvFBCEnable.exe" -ArgumentList "-enable" -NoNewWindow -Wait -PassThru).ExitCode
