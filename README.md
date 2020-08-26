@@ -18,7 +18,7 @@ Or you can download the script and binaries from [here](https://github.com/accel
 Tested and working on the following:
 
 * OS:
-	* Windows 10 Pro build 2004
+	* Windows 10 Pro build 2004 (**Windows 10 will only be compatible with some GPUs. Out of all the ones I've tested only the M60 works.**)
 	* Windows Server 2019
 	* Windows Server 2016
 	
