@@ -11,19 +11,19 @@ $ExitCode = (Start-Process -FilePath "$WorkDir\NvFBCEnable.exe" -ArgumentList "-
 if($ExitCode -ne 0) {
     throw "Failed to enable NvFBC. (Error: $ExitCode)"
 } else {
-    Write-Host "Enabled NvFBC successfully." -ForegroundColor Green
+    Write-Host "Enabled NvFBC successfully." -ForegroundColor DarkGreen
 }
 
-Write-Host "Patching GeForce Experience to enable GameStream..."
+Write-Host "Patching GFE to allow the GPU's Device ID..."
 Stop-Service -Name NvContainerLocalSystem | Out-Null
-$ExitCode = (Start-Process -FilePath "$WorkDir\GFEPatch.exe" -NoNewWindow -Wait -PassThru).ExitCode
-if($ExitCode -ne 0) {
-    $Status = @("Failed to match regex", "Target file not found", "Found no signature", "Found no NVIDIA device to patch")
-    $Message = $Status[$($ExitCode - 1)]
-    throw "Patcher error: $Message."
-} else {
-    Write-Host "Patched sucessfully." -ForegroundColor Green
+$TargetDevice = (Get-WmiObject Win32_VideoController | select PNPDeviceID,Name | where Name -match "nvidia" | Select-Object -First 1) 
+if(!$TargetDevice) {
+    throw "Failed to find an NVIDIA GPU."
 }
+if(!($TargetDevice.PNPDeviceID -match "DEV_(\w*)")) {
+    throw "Regex failed to extract device ID."
+}
+& $PSScriptRoot\Patcher.ps1 -DeviceID $matches[1] -TargetFile "C:\Program Files\NVIDIA Corporation\NvContainer\plugins\LocalSystem\GameStream\Main\_NvStreamControl.dll";
 
 Write-Host "Adding hosts file rules to block updates..."
 $BlockedHosts = @("telemetry.gfe.nvidia.com", "ls.dtrace.nvidia.com", "ota.nvidia.com", "ota-downloads.nvidia.com", "rds-assets.nvidia.com", "nvidia.tt.omtrdc.net", "api.commune.ly")
