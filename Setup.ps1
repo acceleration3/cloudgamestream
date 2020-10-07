@@ -28,7 +28,10 @@ try {
         Write-Host "Step 1 - Installing requirements" -ForegroundColor Yellow
         & $PSScriptRoot\Steps\1_Install_Requirements.ps1 -Main
     } else {
-        Unregister-ScheduledTask -TaskName "GSSetup" -Confirm:$false
+	
+        if(Get-ScheduledTask | Where-Object {$_.TaskName -like "GSSetup" }) {
+            Unregister-ScheduledTask -TaskName "GSSetup" -Confirm:$false
+        }
         Write-Host "The script will now continue from where it left off."
         Pause
     }

@@ -6,7 +6,7 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     Break
 }
 
-$WorkDir = "$PSScriptRoot\..\Bin\"
+$WorkDir = "$PSScriptRoot\..\Bin"
 
 Function Download-File([string]$Url, [string]$Path, [string]$Name) {
     try {
@@ -30,7 +30,6 @@ if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/
 if($InstallVideo) { Download-File "https://download.microsoft.com/download/b/8/f/b8f5ecec-b8f9-47de-b007-ac40adc88dc8/442.06_grid_win10_64bit_international_whql.exe" "$WorkDir\Drivers.exe" "NVIDIA GRID Drivers" }
 
 Write-Host "Installing GeForce Experience..."
-
 
 $ExitCode = (Start-Process -FilePath "$WorkDir\GFE.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
@@ -85,6 +84,23 @@ if($InstallVideo) {
         if($Main) { 
             Unregister-ScheduledTask -TaskName "GSSetup" -Confirm:$false 
         }
-        throw "NVIDIA GRID GPU driver instalation failed."
+
+        Write-Host "Failed to install the recommended NVIDIA GRID driver due to possible incompatibility." -ForegroundColor Red
+        $UseExternalScript = (Read-Host "Would you like to use the Cloud GPU Updater script by jamesstringerparsec? The driver the script will install may or may not be compatible with this patch. A shortcut will be created in the Desktop to continue this installation after finishing the script. (y/n)").ToLower() -eq "y"
+        if($UseExternalScript) {
+            $Shell = New-Object -comObject WScript.Shell
+            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue GFE Patching.lnk")
+            $Shortcut.TargetPath = "powershell.exe"
+            $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
+            $Shortcut.Save()
+            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater"
+            
+            if(![System.IO.File]::Exists("$WorkDir\Updater")) {
+                Expand-Archive -Path "$WorkDir\updater.zip" -DestinationPath "$WorkDir\Updater"
+            }
+
+            Start-Process -FilePath "powershell.exe" -ArgumentList "-Command `"$WorkDir\Updater\Cloud-GPU-Updater-master\GPUUpdaterTool.ps1`""
+            [Environment]::Exit(0)
+        }
     }
 }
