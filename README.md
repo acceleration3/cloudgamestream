@@ -48,3 +48,11 @@ I am building a list of platforms it currently supports, so if you've tested it 
 
 ### This GeForce Experience version doesn't support my game. What do I do?
   You can stream your entire desktop with GeForce Experience. Just add `C:\windows\system32\mstsc.exe` to the applications list and launch that with Moonlight.
+&nbsp;  
+&nbsp;  
+&nbsp;
+## Some good tutorial videos
+### Installing on AWS
+  [Moonlight on AWS - DIY 4K Cloud Gaming Tutorial | Cloud Gaming](https://www.youtube.com/watch?v=u9N_vonzn8A) by TechGuru 
+### Installing on GCP
+  [Moonlight on Google Cloud Platform - Cloud Gaming Tutorial](https://www.youtube.com/watch?v=kNZ6NhPJYfA) by John Ragone
