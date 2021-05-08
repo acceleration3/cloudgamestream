@@ -8,9 +8,9 @@ A Powershell one-click solution to enable NVIDIA GeForce Experience GameStream o
 ## Installation
 Copy and paste these commands in the machine's powershell prompt:
 ```
-[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls";Set-ExecutionPolicy Unrestricted;Invoke-WebRequest -Uri https://github.com/acceleration3/cloudgamestream/archive/master.zip -OutFile arch.zip;Add-Type -Assembly "System.IO.Compression.Filesystem";$dir = [string](Get-Location);rmdir -r cloudgamestream-master -ErrorAction Ignore;[System.IO.Compression.ZipFile]::ExtractToDirectory($dir + "\arch.zip", $dir);cd cloudgamestream-master;./Setup.ps1
+[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls";Set-ExecutionPolicy Unrestricted;Invoke-WebRequest -Uri https://github.com/acceleration3/cloudgamestream/releases/download/resolution-fix/cloudgamestream.zip -OutFile arch.zip;Add-Type -Assembly "System.IO.Compression.Filesystem";$dir = [string](Get-Location);rmdir -r cloudgamestream-master -ErrorAction Ignore;[System.IO.Compression.ZipFile]::ExtractToDirectory($dir + "\arch.zip", $dir);cd cloudgamestream;./Setup.ps1
 ```
-Or you can download the script and binaries from [here](https://github.com/acceleration3/cloudgamestream/archive/master.zip).  
+Or you can download the script and binaries from [here](https://github.com/acceleration3/cloudgamestream/releases/download/resolution-fix/cloudgamestream.zip).  
 &nbsp;  
 &nbsp;  
 
@@ -18,7 +18,7 @@ Or you can download the script and binaries from [here](https://github.com/accel
 Tested and working on the following:
 
 * OS:
-	* Windows 10 Pro build 2004 (**Windows 10 will only be compatible with some GPUs. Out of all the ones I've tested only the M60 works.**)
+	* Windows 10 Pro (**Windows 10 works, albeit only with some older NVIDIA driver versions. I will try to figure out if something can be done for newer drivers.**)
 	* Windows Server 2019
 	* Windows Server 2016
 	
@@ -29,7 +29,7 @@ Tested and working on the following:
 	* Google Cloud Platform Tesla P4
 	
 &nbsp;  
-**WARNING: Machines provided by Shadow.tech supposedly have incompatibility with GeForce Experience and may brick your VM. Use at your own risk.**  
+**WARNING: Machines provided by Shadow.tech supposedly have incompatibility with GeForce Experience and may brick your VM.**  
 &nbsp;  
 &nbsp;  
 &nbsp;  
@@ -48,6 +48,9 @@ I am building a list of platforms it currently supports, so if you've tested it 
 
 ### This GeForce Experience version doesn't support my game. What do I do?
   You can stream your entire desktop with GeForce Experience. Just add `C:\windows\system32\mstsc.exe` to the applications list and launch that with Moonlight.
+
+### Can I load custom EDID data?
+  Yes, but the EDID files **need to be compatible with NVIDIA's EDID format**. You can try changing the EDID data by editing the `C:\ResFix\edid.txt` file. Create a backup of the original file in case it isn't compatible.
 &nbsp;  
 &nbsp;  
 &nbsp;

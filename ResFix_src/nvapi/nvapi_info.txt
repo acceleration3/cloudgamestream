@@ -1,0 +1,1 @@
+Due to the NVAPI SDK's license, distribution of copies of the source code is not allowed. To build this, you need to download the NVAPI SDK and extract it here.
