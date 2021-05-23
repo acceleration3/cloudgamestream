@@ -27,7 +27,17 @@ $InstallVideo = (Read-Host "This script will also install the Parsec GPU Updater
 Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
 Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist"
 if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" "$WorkDir\vbcable.zip" "VBCABLE" }
-if($InstallVideo) { Download-File "https://download.microsoft.com/download/b/8/f/b8f5ecec-b8f9-47de-b007-ac40adc88dc8/442.06_grid_win10_64bit_international_whql.exe" "$WorkDir\Drivers.exe" "NVIDIA GRID Drivers" }
+if($InstallVideo) {
+        Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
+        $UseExternalScript = (Read-Host "Would you like to use the Cloud GPU Updater script by jamesstringerparsec? The driver the script will install may or may not be compatible with this patch. A shortcut will be created in the Desktop to continue this installation after finishing the script. (y/n)").ToLower() -eq "y"
+        if($UseExternalScript) {
+            $Shell = New-Object -comObject WScript.Shell
+            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue Patching.lnk")
+            $Shortcut.TargetPath = "powershell.exe"
+            $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
+            $Shortcut.Save()
+            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater"
+	    }
 
 Write-Host "Installing Openstream..."
 
@@ -57,28 +67,5 @@ if($InstallAudio) {
         Write-Host "Applying Audio service fix for Windows Server..."
         New-ItemProperty "hklm:\SYSTEM\CurrentControlSet\Control" -Name "ServicesPipeTimeout" -Value 600000 -PropertyType "DWord" | Out-Null
         Set-Service -Name Audiosrv -StartupType Automatic | Out-Null
-    }
-}
-
-if($InstallVideo) {
-        Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
-        $UseExternalScript = (Read-Host "Would you like to use the Cloud GPU Updater script by jamesstringerparsec? The driver the script will install may or may not be compatible with this patch. A shortcut will be created in the Desktop to continue this installation after finishing the script. (y/n)").ToLower() -eq "y"
-        if($UseExternalScript) {
-            $Shell = New-Object -comObject WScript.Shell
-            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue Patching.lnk")
-            $Shortcut.TargetPath = "powershell.exe"
-            $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
-            $Shortcut.Save()
-            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater"
-	    
-	    }
-	 
-            if(![System.IO.File]::Exists("$WorkDir\Updater")) {
-                Expand-Archive -Path "$WorkDir\updater.zip" -DestinationPath "$WorkDir\Updater"
-            }
-
-            Start-Process -FilePath "powershell.exe" -ArgumentList "-Command `"$WorkDir\Updater\Cloud-GPU-Updater-master\GPUUpdaterTool.ps1`""
-            [Environment]::Exit(0)
-        }
     }
 }
