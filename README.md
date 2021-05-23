@@ -1,12 +1,16 @@
 ### What is this?
 
-This a fork of the cloudgamestream GitHub thing avalible here: https://github.com/acceleration3/cloudgamestream
+This a fork of the cloudgamestream GitHub thing available here: https://github.com/acceleration3/cloudgamestream
 
-I will hopefully be able to modify the script so that Openstream can be used instead of Geforce Expirence. 
+I will hopefully be able to modify the script so that Openstream can be used instead of GeForce Experience. 
+
+Openstream is a remote desktop like application that allows users of the popular Moonlight application to use the desktop instead of a their library of games. 
+
+It works pretty well and the developers do seem to update on their respective Discords, but not much happens to the public releases. 
 
 Openstream is here: https://github.com/LS3solutions/openstream-server
 
-The script had many useful thing that it could install, so I'm just replacing the Geforce part of the installation. 
+The script had many useful thing that it could install, so I'm just replacing the GeForce part of the installation. 
 
 ### What would this be useful for?
 
