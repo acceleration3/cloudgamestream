@@ -37,15 +37,11 @@ try {
     }
 
     Write-Host ""
-    Write-Host "Step 2 - Disabling Hyper-V Monitor and other GPUs" -ForegroundColor Yellow
-    & $PSScriptRoot\Steps\2_Disable_Other_GPUs.ps1
+    Write-Host "Step 2 - Applying fixes" -ForegroundColor Yellow
+    & $PSScriptRoot\Steps\2_Apply_Fixes.ps1
 
     Write-Host ""
-    Write-Host "Step 3 - Applying fixes" -ForegroundColor Yellow
-    & $PSScriptRoot\Steps\3_Apply_Fixes.ps1
-
-    Write-Host ""
-    Write-Host "Done. You should now be able to use Openstream after you restart your machine." -ForegroundColor DarkGreen
+    Write-Host "Done. Please head to your desktop to use the GPU updater tool. Afterward, follow the steps in the readme on GitHub" -ForegroundColor DarkGreen
 
     $restart = (Read-Host "Would you like to restart now? (y/n)").ToLower();
     if($restart -eq "y") {
