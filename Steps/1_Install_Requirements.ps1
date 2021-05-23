@@ -21,7 +21,7 @@ Function Download-File([string]$Url, [string]$Path, [string]$Name) {
 
 Import-Module BitsTransfer
 
-$InstallAudio = (Read-Host "You need to have an audio interface installed for GameStream to work. Install VBCABLE? (y/n)").ToLower() -eq "y"
+$InstallAudio = (Read-Host "You need audio drivers, do you want VBCable? (y/n)").ToLower() -eq "y"
 $InstallVideo = (Read-Host "This script will also install the Parsec GPU Updater tool, unless you already have drivers, please type y (y/n)").ToLower() -eq "y"
 
 Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
