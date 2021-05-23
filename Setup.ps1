@@ -12,14 +12,14 @@ Start-Transcript -Path "$PSScriptRoot\Log.txt"
 
 clear
 
-Write-HostCenter "Cloud based GameStream Preparation Tool"
-Write-HostCenter "by acceleration3"
+Write-HostCenter "Openstream Automatic Installer 3000"
+Write-HostCenter "Stolen, I mean forked, from acceleration3"
 Write-Host ""
 
 try {
 
     if([bool]((quser) -imatch "rdp")) {
-        throw "You are running a Microsoft RDP session which will not work to enable GameStream! You need to install a different Remote Desktop software like AnyDesk or TeamViewer!"
+        throw "You are running a Microsoft RDP session, please use Anydesk and change your password"
     }
 
     if(!$RebootSkip) {
@@ -37,19 +37,15 @@ try {
     }
 
     Write-Host ""
-    Write-Host "Step 2 - Patching GeForce Experience" -ForegroundColor Yellow
-    & $PSScriptRoot\Steps\2_Patch_GFE.ps1
+    Write-Host "Step 2 - Disabling Hyper-V Monitor and other GPUs" -ForegroundColor Yellow
+    & $PSScriptRoot\Steps\2_Disable_Other_GPUs.ps1
 
     Write-Host ""
-    Write-Host "Step 3 - Disabling Hyper-V Monitor and other GPUs" -ForegroundColor Yellow
-    & $PSScriptRoot\Steps\3_Disable_Other_GPUs.ps1
+    Write-Host "Step 3 - Applying fixes" -ForegroundColor Yellow
+    & $PSScriptRoot\Steps\3_Apply_Fixes.ps1
 
     Write-Host ""
-    Write-Host "Step 4 - Applying fixes" -ForegroundColor Yellow
-    & $PSScriptRoot\Steps\4_Apply_Fixes.ps1
-
-    Write-Host ""
-    Write-Host "Done. You should now be able to use GameStream after you restart your machine." -ForegroundColor DarkGreen
+    Write-Host "Done. You should now be able to use Openstream after you restart your machine." -ForegroundColor DarkGreen
 
     $restart = (Read-Host "Would you like to restart now? (y/n)").ToLower();
     if($restart -eq "y") {
