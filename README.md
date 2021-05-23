@@ -5,6 +5,10 @@ This a fork of the cloudgamestream GitHub repo available here: https://github.co
 
 It automatically install Openstream, Visual Studio Redist, Firefox, VBCable, and a cool GPU updater. 
 
+In order to use it, make sure to disable the IE enhanced security configuration in the server manager and install AnyDesk. 
+
+Download AnyDesk: https://anydesk.com/en
+
 The "cool" GPU updater is compatible with...
 
 ### These Operating Systems:
