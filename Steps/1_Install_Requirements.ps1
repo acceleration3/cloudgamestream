@@ -7,6 +7,7 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 $WorkDir = "$PSScriptRoot\..\Bin"
+$Desktop = "C:\Administrator\Desktop"
 
 Function Download-File([string]$Url, [string]$Path, [string]$Name) {
     try {
@@ -36,7 +37,7 @@ if($InstallVideo) {
             $Shortcut.TargetPath = "powershell.exe"
             $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
             $Shortcut.Save()
-            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater"
+            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "Desktop\updater.zip" "Cloud GPU Updater"
         }    
 }
 
