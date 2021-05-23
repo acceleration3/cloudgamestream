@@ -32,7 +32,7 @@ if($InstallVideo) {
         $UseExternalScript = (Read-Host "Please verify you want to install the Parsec tool (y/n)").ToLower() -eq "y"
         if($UseExternalScript) {
             Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater" }
-	    { Write-Host "Installed! Please execute after finishing this script, in the bin folder" -ForegroundColor Green }
+	    Write-Host "Installed! Please execute after finishing this script, in the bin folder" -ForegroundColor Green
 }
 
 Write-Host "Installing Openstream..."
