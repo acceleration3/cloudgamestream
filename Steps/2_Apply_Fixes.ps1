@@ -13,6 +13,18 @@ if($osType.ProductType -eq 3) {
     Install-WindowsFeature -Name Wireless-Networking | Out-Null
 }
 
+Write-Host "Adding a Openstream rules to the Windows Firewall..."
+New-NetFirewallRule -DisplayName "Moonlight TCP" -Direction inbound -LocalPort 47984,47989,48010 -Protocol TCP -Action Allow | Out-Null
+New-NetFirewallRule -DisplayName "Moonlight UDP" -Direction inbound -LocalPort 47998,47999,48000,48010 -Protocol UDP -Action Allow | Out-Null
+
+Write-Host "Enabling NVIDIA FrameBufferCopy..."
+$ExitCode = (Start-Process -FilePath "$WorkDir\NvFBCEnable.exe" -ArgumentList "-enable" -NoNewWindow -Wait -PassThru).ExitCode
+if($ExitCode -ne 0) {
+    throw "Failed to enable NvFBC. (Error: $ExitCode)"
+} else {
+    Write-Host "Enabled NvFBC successfully." -ForegroundColor DarkGreen
+}
+
 Write-Host "Applying resolution fix scheduled task..." 
 if (!(Test-Path -Path "C:\ResFix")) {
     New-Item -Path C:\ResFix -ItemType Directory | Out-Null
@@ -38,5 +50,4 @@ Write-Host "Resolution fix applied." -ForegroundColor Green
         Write-Host "Applying Audio service fix for Windows Server..."
         New-ItemProperty "hklm:\SYSTEM\CurrentControlSet\Control" -Name "ServicesPipeTimeout" -Value 600000 -PropertyType "DWord" | Out-Null
         Set-Service -Name Audiosrv -StartupType Automatic | Out-Null
-    }
 }

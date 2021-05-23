@@ -7,7 +7,6 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 $WorkDir = "$PSScriptRoot\..\Bin"
-$Desktop = "C:\Administrator\Desktop"
 
 Function Download-File([string]$Url, [string]$Path, [string]$Name) {
     try {
@@ -22,7 +21,7 @@ Function Download-File([string]$Url, [string]$Path, [string]$Name) {
 
 Import-Module BitsTransfer
 
-$InstallAudio = (Read-Host "You need to have an audio interface installed for GameStream to work. Install VBCABLE? (y/n)").ToLower() -eq "y"
+$InstallAudio = (Read-Host "You need audio drivers, do you want VBCable? (y/n)").ToLower() -eq "y"
 $InstallVideo = (Read-Host "This script will also install the Parsec GPU Updater tool, unless you already have drivers, please type y (y/n)").ToLower() -eq "y"
 
 Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
@@ -33,14 +32,8 @@ if($InstallVideo) {
         Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
         $UseExternalScript = (Read-Host "Please verify you want to install the Parsec tool (y/n)").ToLower() -eq "y"
         if($UseExternalScript) {
-            $Shell = New-Object -comObject WScript.Shell
-            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue.lnk")
-            $Shortcut.TargetPath = "powershell.exe"
-            $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
-            $Shortcut.Save()
-            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "Desktop\updater.zip" "Cloud GPU Updater"
-	    Write-Host "In case this script accidently stops due to the GPU updater (or something else), click the continue script on your desktop"
-        }    
+            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater" }
+	    Write-Host "Installed! Please execute after finishing this script, in the bin folder" -ForegroundColor Green
 }
 
 Write-Host "Installing Visual C++ Redist..."
@@ -72,6 +65,4 @@ if($InstallAudio) {
     Write-Host "Installing VBCABLE..."
     Expand-Archive -Path "$WorkDir\vbcable.zip" -DestinationPath "$WorkDir\vbcable"
     Start-Process -FilePath "$WorkDir\vbcable\VBCABLE_Setup_x64.exe" -ArgumentList "-i","-h" -NoNewWindow -Wait
-
-    $osType = Get-CimInstance -ClassName Win32_OperatingSystem
 }
