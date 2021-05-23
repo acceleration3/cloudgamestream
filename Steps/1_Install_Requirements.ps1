@@ -27,6 +27,7 @@ $InstallVideo = (Read-Host "This script will also install the Parsec GPU Updater
 
 Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
 Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist"
+Download-File "https://download.mozilla.org/?product=firefox-stub&os=win&lang=en-US" "$WorkDir\firefox.exe" "Firefox" 
 if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" "$WorkDir\vbcable.zip" "VBCABLE" }
 if($InstallVideo) {
         Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
@@ -42,6 +43,15 @@ if($InstallVideo) {
         }    
 }
 
+Write-Host "Installing Visual C++ Redist..."
+
+$ExitCode = (Start-Process -FilePath "$WorkDir\redist.exe" -ArgumentList "/install","/quiet","/norestart" -NoNewWindow -Wait -Passthru).ExitCode
+if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
+elseif($ExitCode -eq 1638) { Write-Host "Newer version already installed." -ForegroundColor Green }
+else { 
+    throw "Installation failed (Error: $ExitCode)."
+}
+
 Write-Host "Installing Openstream..."
 
 $ExitCode = (Start-Process -FilePath "$WorkDir\openstream.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
@@ -50,11 +60,10 @@ else {
     throw "Installation failed (Error: $ExitCode)."
 }
 
-Write-Host "Installing Visual C++ Redist..."
+Write-Host "Installing Firefox..."
 
-$ExitCode = (Start-Process -FilePath "$WorkDir\redist.exe" -ArgumentList "/install","/quiet","/norestart" -NoNewWindow -Wait -Passthru).ExitCode
+$ExitCode = (Start-Process -FilePath "$WorkDir\firefox.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
-elseif($ExitCode -eq 1638) { Write-Host "Newer version already installed." -ForegroundColor Green }
 else { 
     throw "Installation failed (Error: $ExitCode)."
 }
