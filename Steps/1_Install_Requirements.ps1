@@ -7,7 +7,7 @@ If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 $WorkDir = "$PSScriptRoot\..\Bin"
-$Desktop = "C:\Administrator\Desktop"
+$Desktop = "C:\Users\Administrator\Desktop"
 
 Function Download-File([string]$Url, [string]$Path, [string]$Name) {
     try {
