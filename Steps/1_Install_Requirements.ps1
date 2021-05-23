@@ -29,10 +29,10 @@ Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.
 if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" "$WorkDir\vbcable.zip" "VBCABLE" }
 if($InstallVideo) {
         Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
-        $UseExternalScript = (Read-Host "Would you like to use the Cloud GPU Updater script by jamesstringerparsec? The driver the script will install may or may not be compatible with this patch. A shortcut will be created in the Desktop to continue this installation after finishing the script. (y/n)").ToLower() -eq "y"
+        $UseExternalScript = (Read-Host "Please verify you want to install the Parsec tool (y/n)").ToLower() -eq "y"
         if($UseExternalScript) {
             $Shell = New-Object -comObject WScript.Shell
-            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue Patching.lnk")
+            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue.lnk")
             $Shortcut.TargetPath = "powershell.exe"
             $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
             $Shortcut.Save()
