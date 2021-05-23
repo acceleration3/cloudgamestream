@@ -22,16 +22,16 @@ Function Download-File([string]$Url, [string]$Path, [string]$Name) {
 Import-Module BitsTransfer
 
 $InstallAudio = (Read-Host "You need to have an audio interface installed for GameStream to work. Install VBCABLE? (y/n)").ToLower() -eq "y"
-$InstallVideo = (Read-Host "You also need the NVIDIA GRID Drivers installed. Installing will reboot your machine. Install the tested and recommended ones? (y/n)").ToLower() -eq "y"
+$InstallVideo = (Read-Host "This script will also install the Parsec GPU Updater tool, unless you already have drivers, please type y (y/n)").ToLower() -eq "y"
 
 Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
-Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist 2015 x86"
+Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist"
 if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" "$WorkDir\vbcable.zip" "VBCABLE" }
 if($InstallVideo) { Download-File "https://download.microsoft.com/download/b/8/f/b8f5ecec-b8f9-47de-b007-ac40adc88dc8/442.06_grid_win10_64bit_international_whql.exe" "$WorkDir\Drivers.exe" "NVIDIA GRID Drivers" }
 
 Write-Host "Installing Openstream..."
 
-$ExitCode = (Start-Process -FilePath "$WorkDir\GFE.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
+$ExitCode = (Start-Process -FilePath "$WorkDir\openstream.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
 else { 
     throw "Installation failed (Error: $ExitCode)."
@@ -43,7 +43,7 @@ $ExitCode = (Start-Process -FilePath "$WorkDir\redist.exe" -ArgumentList "/insta
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
 elseif($ExitCode -eq 1638) { Write-Host "Newer version already installed." -ForegroundColor Green }
 else { 
-    throw "Visual C++ Redist 2015 x86 installation failed (Error: $ExitCode)."
+    throw "Installation failed (Error: $ExitCode)."
 }
 
 if($InstallAudio) {
@@ -61,40 +61,18 @@ if($InstallAudio) {
 }
 
 if($InstallVideo) {
-    if($Main) {
-        Write-Host "Installing NVIDIA GRID GPU drivers... Your machine will reboot after installing."
-        $script = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip";
-        $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $script
-        $trigger = New-ScheduledTaskTrigger -AtLogon -RandomDelay "00:00:30"
-        $principal = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
-        Register-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -TaskName "GSSetup" -Description "GSSetup" | Out-Null
-    }
-    $ExitCode = (Start-Process -FilePath "$WorkDir\Drivers.exe" -ArgumentList "/s","/clean" -NoNewWindow -Wait -PassThru).ExitCode
-    if($ExitCode -eq 0) {
-        if($Main) {
-            Write-Host "NVIDIA GRID GPU drivers installed. The script will now restart the machine." -ForegroundColor Green 
-            Start-Sleep -Seconds 3
-            Restart-Computer -Force
-            Start-Sleep -Seconds 10
-            throw "Failed to restart after 10 seconds. Please restart manually."
-        } else {
-            Write-Host "NVIDIA GRID GPU drivers installed." -ForegroundColor Green 
-        }
-    } else {
-        if($Main) { 
-            Unregister-ScheduledTask -TaskName "GSSetup" -Confirm:$false 
-        }
-
-        Write-Host "Failed to install the recommended NVIDIA GRID driver due to possible incompatibility." -ForegroundColor Red
+        Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
         $UseExternalScript = (Read-Host "Would you like to use the Cloud GPU Updater script by jamesstringerparsec? The driver the script will install may or may not be compatible with this patch. A shortcut will be created in the Desktop to continue this installation after finishing the script. (y/n)").ToLower() -eq "y"
         if($UseExternalScript) {
             $Shell = New-Object -comObject WScript.Shell
-            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue GFE Patching.lnk")
+            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue Patching.lnk")
             $Shortcut.TargetPath = "powershell.exe"
             $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
             $Shortcut.Save()
             Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater"
-            
+	    
+	    }
+	 
             if(![System.IO.File]::Exists("$WorkDir\Updater")) {
                 Expand-Archive -Path "$WorkDir\updater.zip" -DestinationPath "$WorkDir\Updater"
             }
