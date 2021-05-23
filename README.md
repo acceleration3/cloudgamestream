@@ -4,7 +4,7 @@ This a fork of the cloudgamestream GitHub thing available here: https://github.c
 
 I will hopefully be able to modify the script so that Openstream can be used instead of GeForce Experience. 
 
-Openstream is a remote desktop like application that allows users of the popular Moonlight application to use the desktop instead of a their library of games. 
+Openstream is a remote desktop like application that allows users of the popular Moonlight application to use the desktop instead of their library of games. 
 
 It works pretty well and the developers do seem to update on their respective Discords, but not much happens to the public releases. 
 
