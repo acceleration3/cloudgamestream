@@ -46,8 +46,8 @@ Keep in mind Openstream is essentially alpha software, once again, there are new
 You just need to install the newest release here: 
 https://github.com/rionthedeveloper/cloudopenstream/releases
 
-When you download it, extract the ZIP and you should see a folder with the name of the archive. Open it. *While holding shift*, right click the folder and click "Open in Powershell window" 
+When you download it, extract the ZIP and you should see a folder with the name of the archive. Open it. Then just click on the Powershell script called `setup.ps1`
 
-On the PowerShell window, type `.\setup.ps1` and follow the script from there! After it's exectuted, head back to the folder with all the resources and find the "bin" folder. 
+After it's exectuted, head back to the folder with all the resources and find the "bin" folder. 
 
 Once you do that, extract the updater ZIP archive, right click "GPU Updater Tool.ps1" and run with Powershell - if the script immediately closes, right click and click edit, then the green play button in the Powershell ISE toolbar.
