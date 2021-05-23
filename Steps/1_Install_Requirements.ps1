@@ -64,10 +64,4 @@ if($InstallAudio) {
     Start-Process -FilePath "$WorkDir\vbcable\VBCABLE_Setup_x64.exe" -ArgumentList "-i","-h" -NoNewWindow -Wait
 
     $osType = Get-CimInstance -ClassName Win32_OperatingSystem
-
-    if($osType.ProductType -eq 3) {
-        Write-Host "Applying Audio service fix for Windows Server..."
-        New-ItemProperty "hklm:\SYSTEM\CurrentControlSet\Control" -Name "ServicesPipeTimeout" -Value 600000 -PropertyType "DWord" | Out-Null
-        Set-Service -Name Audiosrv -StartupType Automatic | Out-Null
-    }
 }
