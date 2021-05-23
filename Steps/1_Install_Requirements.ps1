@@ -25,13 +25,13 @@ $InstallAudio = (Read-Host "You need to have an audio interface installed for Ga
 $InstallVideo = (Read-Host "You also need the NVIDIA GRID Drivers installed. Installing will reboot your machine. Install the tested and recommended ones? (y/n)").ToLower() -eq "y"
 
 Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
-Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist 2015 x86"
+Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist"
 if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" "$WorkDir\vbcable.zip" "VBCABLE" }
 if($InstallVideo) { Download-File "https://download.microsoft.com/download/b/8/f/b8f5ecec-b8f9-47de-b007-ac40adc88dc8/442.06_grid_win10_64bit_international_whql.exe" "$WorkDir\Drivers.exe" "NVIDIA GRID Drivers" }
 
 Write-Host "Installing Openstream..."
 
-$ExitCode = (Start-Process -FilePath "$WorkDir\GFE.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
+$ExitCode = (Start-Process -FilePath "$WorkDir\openstream.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
 else { 
     throw "Installation failed (Error: $ExitCode)."
@@ -43,7 +43,7 @@ $ExitCode = (Start-Process -FilePath "$WorkDir\redist.exe" -ArgumentList "/insta
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
 elseif($ExitCode -eq 1638) { Write-Host "Newer version already installed." -ForegroundColor Green }
 else { 
-    throw "Visual C++ Redist 2015 x86 installation failed (Error: $ExitCode)."
+    throw "Installation failed (Error: $ExitCode)."
 }
 
 if($InstallAudio) {
