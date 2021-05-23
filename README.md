@@ -5,13 +5,13 @@ This a fork of the cloudgamestream GitHub repo available here: https://github.co
 
 It automatically install Openstream, Visual Studio Redist, Firefox, VBCable, and a cool GPU updater. 
 
-The "cool" GPU updater is compatible with 
+The "cool" GPU updater is compatible with...
 
-These Operating Systems:
+### These Operating Systems:
 Windows Server 2016
 Windows Server 2019
 
-Supported GPUs:
+### These GPUs:
 AWS G3.4xLarge (Tesla M60)
 AWS G2.2xLarge (GRID K520)
 AWS G4dn.xLarge (Tesla T4 with vGaming driver)
@@ -23,7 +23,7 @@ Google P100 VW (Tesla P100 with Virtual Workstation Driver)
 Google P4 VW (Tesla P4 with Virtual Workstation Driver)
 Google T4 VW (Tesla T4 with Virtual Workstation Driver)
 
-If your server type is not here, just choose "n" when asked about the GPU updater. Please stay in tune for a version for AMD and Windows 10. 
+If your server type is not here, just choose "n" when asked about the GPU updater. Please stay in tune for a version for AMD GPUs and Windows 10. 
 
 ### What is Openstream?
 Openstream is a remote desktop like application that allows users of the popular Moonlight application to use the desktop instead of their library of games. 
