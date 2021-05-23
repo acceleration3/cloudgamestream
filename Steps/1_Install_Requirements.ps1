@@ -24,20 +24,20 @@ Import-Module BitsTransfer
 $InstallAudio = (Read-Host "You need to have an audio interface installed for GameStream to work. Install VBCABLE? (y/n)").ToLower() -eq "y"
 $InstallVideo = (Read-Host "You also need the NVIDIA GRID Drivers installed. Installing will reboot your machine. Install the tested and recommended ones? (y/n)").ToLower() -eq "y"
 
-Download-File "https://us.download.nvidia.com/GFE/GFEClient/3.13.0.85/GeForce_Experience_Beta_v3.13.0.85.exe" "$WorkDir\GFE.exe" "GeForce Experience"
-Download-File "https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe" "$WorkDir\redist.exe" "Visual C++ Redist 2015 x86"
+Download-File "https://open-stream.net/openstream_alpha_2312.1.exe" "$WorkDir\openstream.exe" "Openstream"
+Download-File "https://aka.ms/vs/16/release/vc_redist.x64.exe" "$WorkDir\redist.exe" "Visual C++ Redist 2015 x86"
 if($InstallAudio) { Download-File "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" "$WorkDir\vbcable.zip" "VBCABLE" }
 if($InstallVideo) { Download-File "https://download.microsoft.com/download/b/8/f/b8f5ecec-b8f9-47de-b007-ac40adc88dc8/442.06_grid_win10_64bit_international_whql.exe" "$WorkDir\Drivers.exe" "NVIDIA GRID Drivers" }
 
-Write-Host "Installing GeForce Experience..."
+Write-Host "Installing Openstream..."
 
 $ExitCode = (Start-Process -FilePath "$WorkDir\GFE.exe" -ArgumentList "-s" -NoNewWindow -Wait -Passthru).ExitCode
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
 else { 
-    throw "GeForce Experience installation failed (Error: $ExitCode)."
+    throw "Installation failed (Error: $ExitCode)."
 }
 
-Write-Host "Installing Visual C++ Redist 2015 x86..."
+Write-Host "Installing Visual C++ Redist..."
 
 $ExitCode = (Start-Process -FilePath "$WorkDir\redist.exe" -ArgumentList "/install","/quiet","/norestart" -NoNewWindow -Wait -Passthru).ExitCode
 if($ExitCode -eq 0) { Write-Host "Installed." -ForegroundColor Green }
