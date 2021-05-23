@@ -37,7 +37,8 @@ if($InstallVideo) {
             $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
             $Shortcut.Save()
             Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater"
-	    }
+        }    
+}
 
 Write-Host "Installing Openstream..."
 
