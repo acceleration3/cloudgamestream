@@ -40,8 +40,7 @@ try {
     Write-Host "Step 2 - Applying fixes" -ForegroundColor Yellow
     & $PSScriptRoot\Steps\2_Apply_Fixes.ps1
 
-    Write-Host ""
-    Write-Host "Finished. Please head to the README on GitHub or continue with the guide you're following..." -ForegroundColor DarkGreen
+    Write-Host "Finished! Please head back to the README on GitHub or continue with the guide you're following" -ForegroundColor DarkGreen
 
     $restart = (Read-Host "Would you like to restart now? (y/n)").ToLower();
     if($restart -eq "y") {
