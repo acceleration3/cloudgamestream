@@ -31,14 +31,8 @@ if($InstallVideo) {
         Write-Host "Beginning to install the Parsec tool..." -ForegroundColor Red
         $UseExternalScript = (Read-Host "Please verify you want to install the Parsec tool (y/n)").ToLower() -eq "y"
         if($UseExternalScript) {
-            $Shell = New-Object -comObject WScript.Shell
-            $Shortcut = $Shell.CreateShortcut("$Home\Desktop\Continue.lnk")
-            $Shortcut.TargetPath = "powershell.exe"
-            $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
-            $Shortcut.Save()
-            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "C:\Users\Administrator\Desktop\updater.zip" "Cloud GPU Updater"
-	    Write-Host "In case this script accidently stops due to the GPU updater (or something else), click the continue script on your desktop"
-        }    
+            Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "$WorkDir\updater.zip" "Cloud GPU Updater" }
+	    { Write-Host "Installed! Please execute after finishing this script, in the bin folder" -ForegroundColor Green }
 }
 
 Write-Host "Installing Openstream..."
@@ -62,6 +56,4 @@ if($InstallAudio) {
     Write-Host "Installing VBCABLE..."
     Expand-Archive -Path "$WorkDir\vbcable.zip" -DestinationPath "$WorkDir\vbcable"
     Start-Process -FilePath "$WorkDir\vbcable\VBCABLE_Setup_x64.exe" -ArgumentList "-i","-h" -NoNewWindow -Wait
-
-    $osType = Get-CimInstance -ClassName Win32_OperatingSystem
 }
