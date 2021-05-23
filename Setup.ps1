@@ -41,7 +41,7 @@ try {
     & $PSScriptRoot\Steps\2_Apply_Fixes.ps1
 
     Write-Host ""
-    Write-Host "Done. Please head to your desktop to use the GPU updater tool. Afterward, follow the steps in the readme on GitHub" -ForegroundColor DarkGreen
+    Write-Host "Finished. Please head to the README on GitHub or continue with the guide you're following..." -ForegroundColor DarkGreen
 
     $restart = (Read-Host "Would you like to restart now? (y/n)").ToLower();
     if($restart -eq "y") {
