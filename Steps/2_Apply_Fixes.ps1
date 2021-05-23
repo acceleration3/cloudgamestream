@@ -38,5 +38,4 @@ Write-Host "Resolution fix applied." -ForegroundColor Green
         Write-Host "Applying Audio service fix for Windows Server..."
         New-ItemProperty "hklm:\SYSTEM\CurrentControlSet\Control" -Name "ServicesPipeTimeout" -Value 600000 -PropertyType "DWord" | Out-Null
         Set-Service -Name Audiosrv -StartupType Automatic | Out-Null
-    }
 }
