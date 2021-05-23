@@ -38,6 +38,7 @@ if($InstallVideo) {
             $Shortcut.Arguments = "-Command `"Set-ExecutionPolicy Unrestricted; & '$PSScriptRoot\..\Setup.ps1'`" -RebootSkip"
             $Shortcut.Save()
             Download-File "https://github.com/jamesstringerparsec/Cloud-GPU-Updater/archive/master.zip" "Desktop\updater.zip" "Cloud GPU Updater"
+	    Write-Host "In case this script accidently stops due to the GPU updater (or something else), click the continue script on your desktop"
         }    
 }
 
