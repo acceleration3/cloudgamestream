@@ -1,3 +1,6 @@
+# Deprecation notice
+I declare this script to now be deprecated. Parsec has made advancements recently to improve the streaming experience and quality to match that of Moonlight. Not only that but a combination of updates to Windows and NVIDIA's drivers have broken (intentionally or not) the method this script uses to enable GameStream on GeForce Experience. While I still have interest in this topic and may in the future research a way to enable GameStream on current versions of GeForce Experience, the methods used there will be totally different from the ones in this script, rendering this one outdated. If you are still interested in an alternative to Parsec for cloud gaming, consider using [tomgrice's script for Sunshine](https://github.com/tomgrice/cloudgamestream-sunshine). Thank you for the positive messages about this project.
+
 # Cloud NVIDIA GameStream
 
 ## What is it?
